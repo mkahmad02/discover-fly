@@ -27,8 +27,8 @@
     </header>
 
     <!--Booking Section-->
-    <main class="main-content container">
-        <div class="booking-form">
+    <main  class="main-content container">
+        <div id="booking-area" class="booking-form">
             <h3>Booking Flights</h3>
             <div class="input-group">
                 <label for="">Flying From</label>
@@ -50,21 +50,21 @@
             </div>
             <div class="input-group f-class">
                 <div>
-                    <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
+                    <label for="" id="first-booking-ticket">First Class ($150)</label>
+                    <input id="first-booking-input" class="inp-style inp-width" type="number" name="" value="1">
                 </div>
                 <div class="plus-minus-btn">
-                    <p>+ -</p>
+                    <p><span onclick="handleTicketPriceChange('first-booking', true)">+</span> <span onclick="handleTicketPriceChange('first-booking', false)"> -</span></p>
                 </div>
             </div>
             
             <div class="input-group f-class">
                 <div>
-                    <label for="" id="per-ticket">Economy ($100)</label>
-                    <input id="ticket-input" class="inp-style inp-width" type="number" name="" value="0">
+                    <label for="" id="second-booking-ticket">Economy ($100)</label>
+                    <input id="second-booking-input" class="inp-style inp-width" type="number" name="" value="1">
                 </div>
                 <div class="plus-minus-btn">
-                    <p> <span onclick="handleTicketChange(true)">+</span> <span onclick="handleTicketChange(false)">-</span> </p>
+                    <p> <span onclick="handleTicketPriceChange('second-booking', true)">+</span> <span onclick="handleTicketPriceChange('second-booking', false)">-</span> </p>
                 </div>
             </div>
             <div class="calculations">
@@ -73,7 +73,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p id="sub-total">$500</p>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p id="tax-amount">$50</p>
                     </div>
                 </div>
                 <hr>
@@ -91,11 +91,11 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p id="grand-total">$550</p>
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="book-now-button" class="btn-style">Book Now</button>
         </div>
 
         <div class="booking-content">
@@ -103,22 +103,70 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicingelit. Provident voluptatibus quam fuga laborumalias veniam libero autem quasi maxime ullam vero nama imi dolor, architecto ab facilis eaque deserunt nobise voluptatibus quam</p>
         </div>
     </section>
+    <article id="booking-reply">
+        <div >
+            <h1><span id="fly-1">Thank's to</span><br> FLY <span id="fly-1">with us!</span> </h1>
+        </div>
+    </article>
+    
 
     <script>
-        function handleTicketChange(isIncrease){
-            const ticketInput = document.getElementById('ticket-input');
-            const ticketCount = parseInt(ticketInput.value);
-            let ticketNewCount = ticketCount;
+           function handleTicketPriceChange(flyTicket, isIncrease){
+            const ticketPriceInput = document.getElementById(flyTicket + '-input');
+            const ticketPriceCount = parseInt(ticketPriceInput.value);
+            let ticketPriceNewCount = ticketPriceCount;
             if(isIncrease == true) {
-                ticketNewCount = ticketCount + 1;
+                ticketPriceNewCount = ticketPriceCount + 1;
             }
-            if(isIncrease == false && ticketCount > 0) {
-                ticketNewCount = ticketCount - 1;
+            if(isIncrease == false && ticketPriceCount > 0) {
+                ticketPriceNewCount = ticketPriceCount - 1;
             }
-            ticketInput.value = ticketNewCount;
-            const totalTicket = ticketNewCount * 100;
-            document.getElementById('per-ticket').innerText = 'Economy ($' + totalTicket + ')';
+            ticketPriceInput.value = ticketPriceNewCount;
+            let ticketPriceTotal = 0;
+            if(flyTicket == 'first-booking' ){
+                ticketPriceTotal = ticketPriceNewCount * 150;
+                document.getElementById(flyTicket + '-ticket').innerText = 'First Class ($' +  ticketPriceTotal + ')';
+            }
+            if(flyTicket == 'second-booking'){
+                ticketPriceTotal = ticketPriceNewCount * 100;
+                document.getElementById(flyTicket + '-ticket').innerText = 'Economy ($' +  ticketPriceTotal + ')';
+            }
+            calculateTotal()
+            
         }
+            function calculateTotal(){
+                const firstBookingInput = document.getElementById('first-booking-input');
+                const firstBookingCount = parseInt(firstBookingInput.value);
+
+                const secondBookingInput = document.getElementById('second-booking-input');
+                const secondBookingCount = parseInt(secondBookingInput.value);
+
+                const totalPrice = firstBookingCount * 150 + secondBookingCount * 100;
+                document.getElementById('sub-total').innerText = '$' + totalPrice;
+
+                const tax = totalPrice * 0.1;
+                document.getElementById('tax-amount').innerText = '$' + tax;
+
+                const grandTotal = totalPrice + tax;
+                document.getElementById('grand-total').innerText = '$' + grandTotal;
+            }
+
+            // booking button
+
+            const bookNowButton = document.getElementById('book-now-button');
+            bookNowButton.addEventListener('click', function(){
+                const bookingArea = document.getElementById('booking-area');
+                bookingArea.style.display = "none";
+
+
+            
+                const bookingReply = document.getElementById('booking-reply');
+                bookingReply.style.display = "block";    
+            })
+               
+
+
+
 
 
 

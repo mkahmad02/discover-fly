@@ -120,3 +120,13 @@ nav ul li a:hover, a.active{
     display: flex;
     justify-content: space-between;
 }
+#booking-reply{
+    display: none;
+    color: rgb(221, 255, 25);
+    font-weight: 700;
+    font-size: 80px;
+}
+#fly-1{
+    color: orange;
+    font-size: 60px;
+}
